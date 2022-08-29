@@ -1,8 +1,8 @@
 Rails.configuration.to_prepare do
-  # require redis
+  # load dependencies
   require "redis"
 
-  # link patches
+  # plugin functionality
   require 'redmine_event_notifier/extensions'
   require 'redmine_event_notifier/publisher'
 end

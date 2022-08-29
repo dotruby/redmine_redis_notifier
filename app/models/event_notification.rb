@@ -6,6 +6,7 @@ class EventNotification < ActiveRecord::Base
   #
 
   belongs_to :owner, polymorphic: true
+  belongs_to :current_user, optional: true
 
   # validations
   #

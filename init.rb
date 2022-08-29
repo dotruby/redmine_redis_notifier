@@ -1,3 +1,10 @@
+require "redmine"
+
+Rails.configuration.to_prepare do
+  # link patches
+  require 'redmine_event_notifier/extensions'
+end
+
 Redmine::Plugin.register :redmine_event_notifier do
   name 'Redmine Event Notifier'
   author 'DotRuby GmbH'

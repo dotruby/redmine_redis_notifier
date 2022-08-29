@@ -1,2 +1,1 @@
-# Plugin's routes
-# See: http://guides.rubyonrails.org/routing.html
+get 'event_notifications', to: 'event_notifications#index'

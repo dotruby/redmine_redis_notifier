@@ -14,15 +14,15 @@ module RedmineEventNotifier
 
     module InstanceMethods
       def save_create_event_notification
-        EventNotification.create(event: self.class.name, action: "create", owner: self)
+        EventNotification.create(action: "create", owner: self)
       end
 
       def save_update_event_notification
-        EventNotification.create(event: self.class.name, action: "update", owner: self)
+        EventNotification.create(action: "update", owner: self)
       end
 
       def save_destroy_event_notification
-        EventNotification.create(event: self.class.name, action: "destroy", owner: self)
+        EventNotification.create(action: "destroy", owner: self)
       end
     end
   end

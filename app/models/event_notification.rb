@@ -1,5 +1,5 @@
 class EventNotification < ActiveRecord::Base
-  EVENTS = ["group", "issue", "project", "role", "time_entry", "user"].freeze
+  ACTIONS = ["create", "update", "destroy"].freeze
 
   # associations
   #
@@ -11,8 +11,7 @@ class EventNotification < ActiveRecord::Base
   #
   #
 
-  validates :event, presence: true
-  validates :action, presence: true
+  validates :action, presence: true, inclusion: {in: ACTIONS}
 
   # callbacks
   #
@@ -21,15 +20,6 @@ class EventNotification < ActiveRecord::Base
   after_commit :publish_event, on: :create
 
   def publish_event
-    # EventPublisher.send(self)
-
-    puts "--------------------------"
-    puts "#{event} -- #{action}!"
-    puts "--------------------------"
-
-    event_name = "redmine/event_notifications/#{event.underscore.pluralize}/#{action}"
-
-    # Easily subscribe to this pattern in redis-cli with "PSUBSCRIBE redmine/event_notifications/*"
-    RedmineEventNotifier.redis.publish "redmine/event_notifications/#{event.underscore.pluralize}/#{action}", {id: self.owner_id}.to_json
+    RedmineEventNotifier::Publisher.new(self).publish
   end
 end

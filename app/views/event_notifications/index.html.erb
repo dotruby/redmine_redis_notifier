@@ -2,28 +2,28 @@
 
 <% if @event_notifications.any? %>
 <div class="autoscroll">
-	<table class="list event-notifications">
-  	<thead>
-  		<tr>
-  			<th>ID</th>
-  			<th>Action</th>
-  			<th>Owner ID</th>
-  			<th>Created</th>
-  			<th>Send</th>
-  		</tr>
-  	</thead>
-  	<tbody>
-			<% @event_notifications.each do |event_notification| %>
-				<tr id="event-notification-<%= event_notification.id %>" class="event-notification">
-					<td class="id"><%= event_notification.id %></td>
-					<td class="action"><%= event_notification.action %></td>
-					<td class="owner_id"><%= event_notification.owner.id %></td>
-					<td class="created_at"><%= event_notification.created_at.to_date %></td>
-					<td class="send_at"><%= event_notification.send_at.to_date if event_notification.send_at.present? %></td>
-	  		</tr>
-			<% end %>
-  	</tbody>
-	</table>
+  <table class="list event-notifications">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Action</th>
+        <th>Owner ID</th>
+        <th>Created</th>
+        <th>Send</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @event_notifications.each do |event_notification| %>
+      <tr id="event-notification-<%= event_notification.id %>" class="event-notification">
+        <td class="id"><%= event_notification.id %></td>
+        <td class="action"><%= event_notification.action %></td>
+        <td class="owner_id"><%= event_notification.owner.id %></td>
+        <td class="created_at"><%= event_notification.created_at.to_date %></td>
+        <td class="send_at"><%= event_notification.send_at.to_date if event_notification.send_at.present? %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>

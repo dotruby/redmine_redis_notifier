@@ -25,6 +25,7 @@
     </tbody>
   </table>
 </div>
+<span class="pagination"><%= pagination_links_full @event_notification_pages, @event_notification_count %></span>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

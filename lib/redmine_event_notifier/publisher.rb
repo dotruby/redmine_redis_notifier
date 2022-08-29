@@ -30,12 +30,7 @@ module RedmineEventNotifier
     end
 
     def owner_data
-      case owner_type
-      when Project
-        {id: owner_id, identifier: owner.identifier, current_user_id: current_user_id}
-      else
-        {id: owner_id, current_user_id: current_user_id}
-      end
+      {id: owner_id, current_user_id: current_user_id}
     end
 
     def json_data

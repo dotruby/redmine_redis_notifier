@@ -1,6 +1,4 @@
 class EventNotification < ActiveRecord::Base
-  ACTIONS = ["create", "update", "destroy"].freeze
-
   # associations
   #
   #
@@ -12,7 +10,7 @@ class EventNotification < ActiveRecord::Base
   #
   #
 
-  validates :action, presence: true, inclusion: {in: ACTIONS}
+  validates :action, presence: true
 
   # callbacks
   #
@@ -22,5 +20,21 @@ class EventNotification < ActiveRecord::Base
 
   def publish_event
     RedmineEventNotifier::Publisher.new(self).publish
+  end
+
+  # class methods
+  #
+  #
+
+  def self.track(action, owner)
+    owner_type = if owner.is_a?(Group)
+      "Group"
+    elsif owner.is_a?(User)
+      "User"
+    else
+      owner.class.name
+    end
+
+    EventNotification.create(action: action, owner_id: owner.id, owner_type: owner_type, current_user_id: User&.current&.id)
   end
 end

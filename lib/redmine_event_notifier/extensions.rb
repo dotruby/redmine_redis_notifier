@@ -14,21 +14,21 @@ module RedmineEventNotifier
 
     module InstanceMethods
       def save_create_event_notification
-        EventNotification.create(action: "create", owner: self, current_user_id: User&.current&.id)
+        EventNotification.track("create", self)
       end
 
       def save_update_event_notification
-        EventNotification.create(action: "update", owner: self, current_user_id: User&.current&.id)
+        EventNotification.track("update", self) if self.previous_changes.present?
       end
 
       def save_destroy_event_notification
-        EventNotification.create(action: "destroy", owner: self, current_user_id: User&.current&.id)
+        EventNotification.track("destroy", self)
       end
     end
   end
 end
 
-[User, Group, Issue, Project, TimeEntry].each do |redmine_model|
+[Issue, Group, Project, Role, TimeEntry, User].each do |redmine_model|
   unless redmine_model.included_modules.include?(RedmineEventNotifier::Extensions)
     redmine_model.send(:include, RedmineEventNotifier::Extensions)
   end

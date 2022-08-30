@@ -8,14 +8,25 @@ This Redmine Plugin enhances several core models to make use of a Redis PubSub l
 * Send an email on certain actions
 * etc. (possibilites are endless)
 
-This plugin was developed and tested with Redmine 5.x. Thanks to DOM Digital Online Media GmbH (https://www.dom.de) for allowing us to open source this.
+This plugin was developed and tested with Redmine 5.x. Thanks to [Digital Online Media GmbH](https://www.dom.de) for allowing us to open source this.
+
+![Screenshot index page](screenshots/index_page.png)
 
 ## Install
 
-1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the REDIS_URL environment variable, e.g. `export REDIS_URL=redis://localhost:6379`
-2. Install the plugin with cloning the code into your `plugin` directory in your Redmine installation, e.g. `git clone https://github.com/dotruby/redmine_redis_notifier`
+1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the REDIS_URL environment variable, e.g.
+```
+export REDIS_URL=redis://localhost:6379
+```
+2. Install the plugin with cloning the code into your `plugin` directory in your Redmine installation, e.g.
+```
+git clone https://github.com/dotruby/redmine_redis_notifier
+```
 3. Run bundle install to install the redis gem: `bundle install`
-4. Run plugin migrations: `RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier`
+4. Run plugin migrations:
+```
+RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier
+```
 5. Restart redmine to pickup the changes
 
 ## Usage
@@ -24,7 +35,10 @@ Each internal object event is stored in a new table `redis_notifications`. You c
 
 If you want you can disable the creation of redis notifications for certain models in the configuration section of the plugin. If disabled, the redis notification record will be not be stored upon object action and thus no redis message will be published.
 
-The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all redis_notifications in Redis: `PSUBSCRIBE redmine/redis_notifications/*`
+The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all `redis_notifications in Redis:
+```
+PSUBSCRIBE redmine/redis_notifications/*
+```
 
 ## Events and actions
 
@@ -45,8 +59,14 @@ You can also get all redis_notifications with REST API calls (`GET /redis_notifi
 
 ## Uninstall
 
-1. Remove this gem by first removing the database table: `RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier VERSION=0`
-2. Remove this plugin by going in the plugins folder and remove the plugin `redmine_redis_notifier`: rm -r redmine_redis_notifier
+1. Remove this gem by first removing the database table:
+```
+RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier VERSION=0
+```
+2. Remove this plugin by going in the plugins folder and remove the plugin `redmine_redis_notifier`:
+```
+rm -r redmine_redis_notifier
+```
 3. Restart Redmine to pickup the changes
 
 

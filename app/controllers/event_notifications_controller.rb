@@ -3,7 +3,7 @@ class EventNotificationsController < ApplicationController
   accept_api_auth :index, :show
 
   def index
-    scope = EventNotification.includes(:current_user).order(id: :desc)
+    scope = EventNotification.includes(:current_user, :subject).order(id: :desc)
 
     respond_to do |format|
       format.html do

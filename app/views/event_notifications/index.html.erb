@@ -47,6 +47,7 @@
               <%= event_notification.current_user.id %>
             <% else %>
               <%= event_notification.current_user_id %>
+              (Deleted User)
             <% end %>
           </td>
           <td class="created_at"><%= format_time(event_notification.created_at) %></td>

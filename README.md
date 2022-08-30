@@ -35,7 +35,7 @@ Each internal object event is stored in a new table `redis_notifications`. You c
 
 If you want you can disable the creation of redis notifications for certain models in the configuration section of the plugin. If disabled, the redis notification record will be not be stored upon object action and thus no redis message will be published.
 
-The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all `redis_notifications in Redis:
+The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all `redis_notifications` in Redis:
 ```
 PSUBSCRIBE redmine/redis_notifications/*
 ```

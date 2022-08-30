@@ -76,6 +76,7 @@ jobs:
           RAILS_ENV: test
         working-directory: redmine
         run: |
+          bundle exec rake db:drop
           bundle exec rake db:create
           bundle exec rake db:migrate
           bundle exec rake redmine:plugins:migrate

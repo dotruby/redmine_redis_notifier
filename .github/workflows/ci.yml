@@ -69,15 +69,15 @@ jobs:
 
       - run: ruby -v
 
-      - name: Install Ruby dependencies
-        working-directory: redmine
-        run: |
-          bundle install --jobs=4 --retry=3 --without development
-
       - name: Prepare Redmine database
         working-directory: redmine
         run: |
           cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
+
+      - name: Install Ruby dependencies
+        working-directory: redmine
+        run: |
+          bundle install --jobs=4 --retry=3
 
       - name: Install plugins dependencies and run plugins migrations
         env:

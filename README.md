@@ -14,7 +14,7 @@ This plugin was developed and tested with Redmine 5.x. Thanks to [Digital Online
 
 ## Install
 
-1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the REDIS_URL environment variable, e.g.
+1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the `REDIS_URL` environment variable, e.g.
 ```
 export REDIS_URL=redis://localhost:6379
 ```

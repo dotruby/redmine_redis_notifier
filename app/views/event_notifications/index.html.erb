@@ -34,7 +34,7 @@
             <% when "Role" %>
               <%= link_to event_notification.owner.name, edit_role_path(event_notification.owner) %>
             <% when "TimeEntry" %>
-              <%= link_to event_notification.owner.issue.subject, issue_path(event_notification.owner.issue) %>
+              <%= link_to event_notification.owner.project.name, project_time_entries_path(event_notification.owner.project) %>
             <% end %>
           <% else %>
             <%= event_notification.owner_id %>

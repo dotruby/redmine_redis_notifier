@@ -1,4 +1,4 @@
-<%= title "Event Notifications" %>
+<%= title l(:event_notifications) %>
 
 <% if @event_notifications.any? %>
 <div class="autoscroll">
@@ -27,7 +27,7 @@
             <span class="icon icon-not-ok"></span>
           <% end %>
         </td>
-        <td class="publish"><%= link_to "Publish", publish_event_notification_path(event_notification), method: :put, class: "icon icon-arrow-right" %></td>
+        <td class="publish"><%= link_to l(:event_notification_publish), publish_event_notification_path(event_notification), method: :put, class: "icon icon-arrow-right" %></td>
       </tr>
       <% end %>
     </tbody>

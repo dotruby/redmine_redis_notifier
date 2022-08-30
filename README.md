@@ -1,4 +1,5 @@
-# Redmine Redis Notifier
+# 📣 Redmine Redis Notifier
+[![Plugin Test](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml/badge.svg)](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml)
 
 This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the the given message information in any way you want. Use cases could be something like:
 
@@ -12,7 +13,7 @@ This plugin was developed and tested with Redmine 5.x. Thanks to [Digital Online
 
 ![Screenshot index page](screenshots/index_page.png)
 
-## Install
+## 🚀 Install
 
 1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the `REDIS_URL` environment variable, e.g.
 ```
@@ -29,7 +30,7 @@ RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis
 ```
 5. Restart redmine to pickup the changes
 
-## Usage
+## 📝 Usage
 
 Each internal object event is stored in a new table `redis_notifications`. You can also view the notifications in Redmine in the admin section. If a message needs to be resend for any reason, you can do so as well.
 
@@ -40,7 +41,7 @@ The subscription logic for the Redis channels is totally up to you. An easy exam
 PSUBSCRIBE redmine/redis_notifications/*
 ```
 
-## Events and actions
+## 🤖 Events and actions
 
 These mentioned models are tracked with the corresponding actions. Internally Rails callbacks are used on the model layer, so the plugin patches the models with enhanced logic. The information sent to the channels is very minimal, it's basically only the object id and the user who performed the change. The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
 
@@ -53,11 +54,11 @@ These mentioned models are tracked with the corresponding actions. Internally Ra
 | TimeEvent  | `create\|update\|destroy`  | `redmine/redis_notifications/time_events/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | User  | `create\|update\|destroy`  | `redmine/redis_notifications/users/#{action}` | `{"id": 1, "current_user_id": 1}` |
 
-## REST APi
+## 🚛 REST APi
 
 You can also get all redis_notifications with REST API calls (`GET /redis_notifications.xml` or `GET /redis_notifications.json`). For an  individual redis_notification use `GET /redis_notifications/1.xml` or `GET /redis_notifications/1.json`
 
-## Uninstall
+## 🗑️ Uninstall
 
 1. Remove this gem by first removing the database table:
 ```
@@ -70,7 +71,7 @@ rm -r redmine_redis_notifier
 3. Restart Redmine to pickup the changes
 
 
-## Changelog
+## 📙 Changelog
 ### HEAD (not yet released)
 
 ### v0.0.1

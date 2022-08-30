@@ -1,0 +1,94 @@
+name: Plugin Test
+
+env:
+  PLUGIN_NAME: redmine_event_notifier
+  REDMINE_VERSION: 5.0.2
+  RAILS_ENV: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
+
+jobs:
+  test:
+    name: ${{ github.workflow }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ['3.1']
+        db: ['postgres']
+      fail-fast: false
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout Redmine
+        uses: actions/checkout@v2
+        with:
+          repository: redmine/redmine
+          ref: ${{ env.REDMINE_VERSION }}
+          path: redmine
+
+      - name: Install package dependencies
+        run: >
+          sudo apt-get install --yes --quiet
+          build-essential
+          cmake
+          libicu-dev
+          libpq-dev
+          ghostscript
+          gsfonts
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - run: ruby -v
+
+      - name: Prepare Redmine database
+        working-directory: redmine
+        run: |
+          cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
+
+      - name: Checkout redmine_event_notifier plugin
+        uses: actions/checkout@v2
+        with:
+          path: redmine/plugins/${{ env.PLUGIN_NAME }}
+
+      - name: Install Ruby dependencies
+        working-directory: redmine
+        run: |
+          bundle install --jobs=4 --retry=3 --without development
+
+      - name: Install plugins dependencies and run plugins migrations
+        env:
+          RAILS_ENV: test
+        working-directory: redmine
+        run: |
+          bundle exec rake db:migrate
+          bundle exec rake redmine:plugins:migrate
+
+      - name: Run plugin tests
+        env:
+          RAILS_ENV: test
+        working-directory: redmine
+        run: rails test plugins/redmine_event_notifier/test

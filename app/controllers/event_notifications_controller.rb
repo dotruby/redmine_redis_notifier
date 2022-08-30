@@ -14,4 +14,15 @@ class EventNotificationsController < ApplicationController
       end
     end
   end
+
+  def publish
+    flash[:notice] = "Event Notification ##{resource.id} has been published."
+    redirect_to event_notifications_path
+  end
+
+  private
+
+  def resource
+    @event_notification ||= EventNotification.find(params[:id])
+  end
 end

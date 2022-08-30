@@ -1,8 +1,6 @@
 require "redmine"
 
-Rails.configuration.to_prepare do
-  require "redmine_redis_notifier/extensions"
-end
+require_relative 'lib/redmine_redis_notifier'
 
 Redmine::Plugin.register :redmine_redis_notifier do
   name "Redmine Redis Notifier"

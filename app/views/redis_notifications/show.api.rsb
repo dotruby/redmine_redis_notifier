@@ -1,0 +1,10 @@
+api.redis_notification do
+  api.id @redis_notification.id
+  api.subject_id @redis_notification.subject_id
+  api.subject_type @redis_notification.subject_type
+  api.action @redis_notification.action
+  api.published_at @redis_notification.published_at
+  api.created_at @redis_notification.created_at
+  api.current_user_id @redis_notification.current_user_id
+  api.error @redis_notification.error
+end

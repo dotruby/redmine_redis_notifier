@@ -1,4 +1,4 @@
-resources :event_notifications, only: [:index, :show] do
+resources :redis_notifications, only: [:index, :show] do
   member do
     put :publish
   end

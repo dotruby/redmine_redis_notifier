@@ -1,6 +1,6 @@
-class CreateEventNotifications < ActiveRecord::Migration[6.1]
+class CreateRedisNotifications < ActiveRecord::Migration[6.1]
   def change
-    create_table :event_notifications do |t|
+    create_table :redis_notifications do |t|
       t.string :action
       t.references :subject, polymorphic: true
       t.datetime :published_at

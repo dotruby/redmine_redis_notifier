@@ -1,19 +1,19 @@
 require "redmine"
 
 Rails.configuration.to_prepare do
-  require "redmine_event_notifier/extensions"
+  require "redmine_redis_notifier/extensions"
 end
 
-Redmine::Plugin.register :redmine_event_notifier do
-  name "Redmine Event Notifier"
+Redmine::Plugin.register :redmine_redis_notifier do
+  name "Redmine Redis Notifier"
   author "DotRuby GmbH"
   description "Redmine Plugin to publish object events to Redis for PubSub usage"
   version "0.0.1"
-  url "https://github.com/dotruby/redmine_event_notifier"
+  url "https://github.com/dotruby/redmine_redis_notifier"
   author_url "https://www.dotruby.com/"
   requires_redmine version_or_higher: "5.0.0"
 
-  settings partial: "settings/redmine_event_notifier", default: {
+  settings partial: "settings/redmine_redis_notifier", default: {
     "enable_issues" => "1",
     "enable_groups" => "1",
     "enable_projects" => "1",
@@ -22,5 +22,5 @@ Redmine::Plugin.register :redmine_event_notifier do
     "enable_users" => "1"
   }
 
-  menu :admin_menu, :event_notifications, {controller: "event_notifications", action: "index"}, caption: "Event Notifications", last: true, html: {class: "icon icon-message"}
+  menu :admin_menu, :redis_notifications, {controller: "redis_notifications", action: "index"}, caption: "Redis Notifications", last: true, html: {class: "icon icon-message"}
 end

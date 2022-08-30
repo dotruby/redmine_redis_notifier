@@ -1,4 +1,4 @@
-module RedmineEventNotifier
+module RedmineRedisNotifier
   def self.redis
     @redis ||= if ENV["REDIS_URL"].present?
       Redis.new(url: ENV["REDIS_URL"])
@@ -13,7 +13,7 @@ Rails.configuration.to_prepare do
   require "redis"
 
   # plugin functionality
-  require "redmine_event_notifier/extensions"
-  require "redmine_event_notifier/project_patch"
-  require "redmine_event_notifier/publisher"
+  require "redmine_redis_notifier/extensions"
+  require "redmine_redis_notifier/project_patch"
+  require "redmine_redis_notifier/publisher"
 end

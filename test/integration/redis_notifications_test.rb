@@ -1,13 +1,13 @@
 require "test_helper"
 
-class EventNotificationsTest < Redmine::IntegrationTest
+class RedisNotificationsTest < Redmine::IntegrationTest
   fixtures :projects, :users
 
   setup do
     users(:users_001)
     log_user("admin", "admin")
     @project = projects(:projects_001)
-    EventNotification.create!(action: "update", subject: @project)
+    RedisNotification.create!(action: "update", subject: @project)
   end
 
   # Index action
@@ -15,22 +15,22 @@ class EventNotificationsTest < Redmine::IntegrationTest
   #
 
   test "successfully renders the index page with html format" do
-    get event_notifications_path
+    get redis_notifications_path
     assert_response :success
   end
 
   test "successfully renders the index page with json format" do
-    get event_notifications_path(format: "json")
+    get redis_notifications_path(format: "json")
     assert_response :success
   end
 
   test "successfully renders the index page with xml format" do
-    get event_notifications_path(format: "xml")
+    get redis_notifications_path(format: "xml")
     assert_response :success
   end
 
-  test "it displays the project as an event notification on the index page with html format" do
-    get event_notifications_path
+  test "it displays the project as an redis notification on the index page with html format" do
+    get redis_notifications_path
     assert_match @project.name, response.body
   end
 

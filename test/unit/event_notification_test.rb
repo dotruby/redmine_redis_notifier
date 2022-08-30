@@ -17,6 +17,7 @@ class EventNotificationTest < ActiveSupport::TestCase
   #
 
   test "tracking with settings enabled saves a event notification" do
+    Setting.plugin_redmine_event_notifier["enable_projects"] = "1"
     result = EventNotification.track("update", projects(:projects_001))
     assert_equal EventNotification.last, result
   end

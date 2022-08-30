@@ -1,9 +1,10 @@
 require "test_helper"
 
 class EventNotificationsTest < Redmine::IntegrationTest
-  fixtures :projects
+  fixtures :projects, :users
 
   setup do
+    users(:users_001)
     log_user("admin", "admin")
     @project = projects(:projects_001)
     EventNotification.create!(action: "update", subject: @project)

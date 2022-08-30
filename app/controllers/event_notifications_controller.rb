@@ -1,4 +1,5 @@
 class EventNotificationsController < ApplicationController
+  self.main_menu = false
   before_action :require_admin_or_api_request
   accept_api_auth :index, :show
 
@@ -30,7 +31,7 @@ class EventNotificationsController < ApplicationController
   def publish
     resource.publish
     flash[:notice] = "Event Notification ##{resource.id} has been published."
-    redirect_to event_notifications_path
+    redirect_to_referer_or(event_notifications_path)
   end
 
   private

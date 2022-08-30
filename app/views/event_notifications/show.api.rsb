@@ -1,9 +1,9 @@
 api.event_notification do
   api.id @event_notification.id
-  api.owner_id @event_notification.owner_id
-  api.owner_type @event_notification.owner_type
+  api.subject_id @event_notification.subject_id
+  api.subject_type @event_notification.subject_type
   api.action @event_notification.action
-  api.sent_at @event_notification.sent_at
+  api.published_at @event_notification.published_at
   api.created_at @event_notification.created_at
   api.current_user_id @event_notification.current_user_id
   api.error @event_notification.error

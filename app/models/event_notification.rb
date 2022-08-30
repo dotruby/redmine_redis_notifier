@@ -3,7 +3,7 @@ class EventNotification < ActiveRecord::Base
   #
   #
 
-  belongs_to :owner, polymorphic: true
+  belongs_to :subject, polymorphic: true
   belongs_to :current_user, optional: true, class_name: "User"
 
   # validations
@@ -16,29 +16,33 @@ class EventNotification < ActiveRecord::Base
   #
   #
 
-  after_commit :publish_event, on: :create
-
-  def publish_event
-    RedmineEventNotifier::Publisher.new(self).publish
-  end
+  after_commit :publish, on: :create
 
   # class methods
   #
   #
 
-  def self.track(action, owner)
-    owner_type = if owner.is_a?(Group)
+  def self.track(action, subject)
+    subject_type = if subject.is_a?(Group)
       "Group"
-    elsif owner.is_a?(User)
+    elsif subject.is_a?(User)
       "User"
     else
-      owner.class.name
+      subject.class.name
     end
 
-    if Setting.plugin_redmine_event_notifier["enable_#{owner_type.underscore.pluralize}"] == "1"
-      EventNotification.create(action: action, owner_id: owner.id, owner_type: owner_type, current_user_id: User&.current&.id)
+    if Setting.plugin_redmine_event_notifier["enable_#{subject_type.underscore.pluralize}"] == "1"
+      EventNotification.create(action: action, subject_id: subject.id, subject_type: subject_type, current_user_id: User&.current&.id)
     else
       true
     end
+  end
+
+  # instance methods
+  #
+  #
+
+  def publish
+    RedmineEventNotifier::Publisher.new(self).publish
   end
 end

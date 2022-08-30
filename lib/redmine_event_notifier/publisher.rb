@@ -8,9 +8,6 @@ module RedmineEventNotifier
     end
 
     def publish
-      # if you want to suscribe to the events you can e.g. use this
-      # Easily subscribe to this pattern in redis-cli: PSUBSCRIBE redmine/event_notifications/*
-
       begin
         redis.publish event_name, json_data
         event_notification.update_column(:sent_at, Time.zone.now)

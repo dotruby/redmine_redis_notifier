@@ -13,7 +13,7 @@ Rails.configuration.to_prepare do
   require "redis"
 
   # plugin functionality
-  require 'redmine_event_notifier/extensions'
-  require 'redmine_event_notifier/project_patch'
-  require 'redmine_event_notifier/publisher'
+  require "redmine_event_notifier/extensions"
+  require "redmine_event_notifier/project_patch"
+  require "redmine_event_notifier/publisher"
 end

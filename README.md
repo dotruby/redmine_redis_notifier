@@ -1,10 +1,11 @@
 # Redmine Event Notifier
 
-This Redmine Plugin enhances several core models with a Redis PubSub logic. Whenever such objects are created, a message is published on a Redis channel. You could then implement you own subcription logic on Redis and do whatever you'd like with the given message information. Use cases could be something like this:
+This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the the given message information in any way you want. Use cases could be something like:
 
 * On project creation also create a folder structure on the file server
 * On user creation add the user to certain lists
 * On issue removal also remove a github issue
+* Send an email on certain actions
 * etc. (possibilites are endless)
 
 This plugin was developed and tested with Redmine 5.x. Thanks to DOM Digital Online Media GmbH (https://www.dom.de) for allowing us to open source this.
@@ -17,25 +18,24 @@ This plugin was developed and tested with Redmine 5.x. Thanks to DOM Digital Onl
 4. Run plugin migrations: `bundle exec rake redmine:plugins:migrate NAME=redmine_event_notifier`
 5. Restart redmine to pickup the changes
 
+## Usage
+
+Each internal object event is stored in a new table `event_notifications`. You can also view the events in Redmine in the admin section. If a message needs to be resend for any reason, you can do so as well.
+
+The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all event_notifications in Redis: `PSUBSCRIBE redmine/event_notifications/*`
+
 ## Events and actions
 
-These models are tracked with the corresponding actions. The information sent to the channels is very minimal, it's basically only the object id.
+These models are tracked with the corresponding actions. The information sent to the channels is very minimal, it's basically only the object id. The idea is call the Redmine REST API for retrieving the full objects and performing your own actions after you subscribed to the events.
 
 | Model  | Actions | Redis publish channel | Message Data |
 | ------------- | ------------- | ------------- | ------------- |
 | Group  | `create\|update\|destroy`  | `redmine/event_notifications/groups/#{action}` | `{"id": 1}` |
 | Issue  | `create\|update\|destroy`  | `redmine/event_notifications/issues/#{action}` | `{"id": 1}` |
-| Project  | `create\|update\|destroy`  | `redmine/event_notifications/projects/#{action}` | `{"id": 1}` |
+| Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/event_notifications/projects/#{action}` | `{"id": 1}` |
 | Role  | `create\|update\|destroy`  | `redmine/event_notifications/roles/#{action}` | `{"id": 1}` |
 | TimeEvent  | `create\|update\|destroy`  | `redmine/event_notifications/time_events/#{action}` | `{"id": 1}` |
 | User  | `create\|update\|destroy`  | `redmine/event_notifications/users/#{action}` | `{"id": 1}` |
-
-
-## Usage
-
-Each internal object event is stored in the table `event_notifications`. You can also view the events in Redmine in the admin section. If a message needs to be resend for any reason, you can do so in Redmine.
-
-The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscription in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your needs. You could also use pattern subscribe to subscribe to all event_notifications in Redis: `PSUBSCRIBE redmine/event_notifications/*`
 
 ## Uninstall
 

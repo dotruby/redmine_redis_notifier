@@ -1,34 +1,32 @@
-<div>
-  <b><%= l(:redmine_event_notifier_enable_for) %></b>
-</div>
+<fieldset class="box">
+  <legend><%= l(:redmine_event_notifier_enable_for) %></legend>
+  <p>
+    <%= label_tag "settings[enable_users]", l(:label_user_plural) %>
+    <%= check_box_tag "settings[enable_users]", "1", @settings["enable_users"] %>
+  </p>
 
-<div>
-  <%= l(:label_user_plural) %>
-  <%= check_box_tag "settings[enable_users]", "1", @settings["enable_users"] %>
-</div>
+  <p>
+    <%= label_tag "settings[enable_groups]", l(:label_group_plural) %>
+    <%= check_box_tag "settings[enable_groups]", "1", @settings["enable_groups"] %>
+  </p>
 
-<div>
-  <%= l(:label_group_plural) %>
-  <%= check_box_tag "settings[enable_groups]", "1", @settings["enable_groups"] %>
-</div>
+  <p>
+    <%= label_tag "settings[enable_roles]", l(:label_role_plural) %>
+    <%= check_box_tag "settings[enable_roles]", "1", @settings["enable_roles"] %>
+  </p>
 
-<div>
-  <%= l(:label_role_plural) %>
-  <%= check_box_tag "settings[enable_roles]", "1", @settings["enable_roles"] %>
-</div>
+  <p>
+    <%= label_tag "settings[enable_projects]", l(:label_project_plural) %>
+    <%= check_box_tag "settings[enable_projects]", "1", @settings["enable_projects"] %>
+  </p>
 
-<div>
-  <%= l(:label_project_plural) %>
-  <%= check_box_tag "settings[enable_projects]", "1", @settings["enable_projects"] %>
-</div>
+  <p>
+    <%= label_tag "settings[enable_issues]", l(:label_issue_plural) %>
+    <%= check_box_tag "settings[enable_issues]", "1", @settings["enable_issues"] %>
+  </p>
 
-<div>
-  <%= l(:label_issue_plural) %>
-  <%= check_box_tag "settings[enable_issues]", "1", @settings["enable_issues"] %>
-</div>
-
-<div>
-  <%= l(:label_time_entry_plural) %>
-  <%= check_box_tag "settings[enable_time_entries]", "1", @settings["enable_time_entries"] %>
-</div>
-
+  <p>
+    <%= label_tag "settings[enable_time_entries]", l(:label_time_entry_plural) %>
+    <%= check_box_tag "settings[enable_time_entries]", "1", @settings["enable_time_entries"] %>
+  </p>
+</fieldset>

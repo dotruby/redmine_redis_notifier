@@ -79,16 +79,16 @@ jobs:
         run: |
           bundle install --jobs=4 --retry=3
 
-      - name: Install plugins dependencies and run plugins migrations
+      - name: Run plugin tests
         env:
+          # use localhost for the host here because we have specified a container for the job.
+          # If we were running the job on the VM this would be postgres
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
           RAILS_ENV: test
         working-directory: redmine
         run: |
           bundle exec rake db:migrate
           bundle exec rake redmine:plugins:migrate
-
-      - name: Run plugin tests
-        env:
-          RAILS_ENV: test
-        working-directory: redmine
-        run: rails test plugins/redmine_event_notifier/test
+          rails test plugins/redmine_event_notifier/test

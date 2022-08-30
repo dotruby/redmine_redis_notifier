@@ -94,4 +94,4 @@ jobs:
           bundle exec rake db:create
           bundle exec rake db:migrate
           bundle exec rake redmine:plugins:migrate
-          rails test plugins/redmine_event_notifier/test
+          bundle exec rails test plugins/redmine_event_notifier/test

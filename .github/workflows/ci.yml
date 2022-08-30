@@ -47,16 +47,6 @@ jobs:
           ref: ${{ env.REDMINE_VERSION }}
           path: redmine
 
-      # - name: Install package dependencies
-      #   run: >
-      #     sudo apt-get install --yes --quiet
-      #     build-essential
-      #     cmake
-      #     libicu-dev
-      #     libpq-dev
-      #     ghostscript
-      #     gsfonts
-
       - name: Checkout redmine_event_notifier plugin
         uses: actions/checkout@v2
         with:

@@ -31,11 +31,15 @@ class RedisNotification < ActiveRecord::Base
       subject.class.name
     end
 
-    if Setting.plugin_redmine_redis_notifier["enable_#{subject_type.underscore.pluralize}"] == "1"
+    if Setting.plugin_redmine_redis_notifier["enable_#{subject_type.underscore.pluralize}"] == "1" && notification_table_exists?
       RedisNotification.create(action: action, subject_id: subject.id, subject_type: subject_type, current_user_id: User&.current&.id)
     else
       true
     end
+  end
+
+  def self.notification_table_exists?
+    ActiveRecord::Base.connection.table_exists?("redis_notifications")
   end
 
   # instance methods

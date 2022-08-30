@@ -12,13 +12,15 @@ Redmine::Plugin.register :redmine_event_notifier do
   url "https://github.com/dotruby/redmine_event_notifier"
   author_url "https://www.dotruby.com/"
   requires_redmine version_or_higher: "5.0.0"
+
   settings partial: "settings/redmine_event_notifier", default: {
-    "redmine_event_notifier_issues" => "1",
-    "redmine_event_notifier_groups" => "1",
-    "redmine_event_notifier_projects" => "1",
-    "redmine_event_notifier_roles" => "1",
-    "redmine_event_notifier_time_entries" => "1",
-    "redmine_event_notifier_users" => "1"
+    "enable_issues" => "1",
+    "enable_groups" => "1",
+    "enable_projects" => "1",
+    "enable_roles" => "1",
+    "enable_time_entries" => "1",
+    "enable_users" => "1"
   }
+
   menu :admin_menu, :event_notifications, {controller: "event_notifications", action: "index"}, caption: "Event Notifications", last: true, html: {class: "icon icon-message"}
 end

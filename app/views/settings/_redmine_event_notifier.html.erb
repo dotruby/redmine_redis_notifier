@@ -4,31 +4,31 @@
 
 <div>
   <%= l(:label_user_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_users]", "1", @settings["redmine_event_notifier_users"] %>
+  <%= check_box_tag "settings[enable_users]", "1", @settings["enable_users"] %>
 </div>
 
 <div>
   <%= l(:label_group_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_groups]", "1", @settings["redmine_event_notifier_groups"] %>
+  <%= check_box_tag "settings[enable_groups]", "1", @settings["enable_groups"] %>
 </div>
 
 <div>
   <%= l(:label_role_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_roles]", "1", @settings["redmine_event_notifier_roles"] %>
+  <%= check_box_tag "settings[enable_roles]", "1", @settings["enable_roles"] %>
 </div>
 
 <div>
   <%= l(:label_project_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_projects]", "1", @settings["redmine_event_notifier_projects"] %>
+  <%= check_box_tag "settings[enable_projects]", "1", @settings["enable_projects"] %>
 </div>
 
 <div>
   <%= l(:label_issue_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_issues]", "1", @settings["redmine_event_notifier_issues"] %>
+  <%= check_box_tag "settings[enable_issues]", "1", @settings["enable_issues"] %>
 </div>
 
 <div>
   <%= l(:label_time_entry_plural) %>
-  <%= check_box_tag "settings[redmine_event_notifier_time_entries]", "1", @settings["redmine_event_notifier_time_entries"] %>
+  <%= check_box_tag "settings[enable_time_entries]", "1", @settings["enable_time_entries"] %>
 </div>
 

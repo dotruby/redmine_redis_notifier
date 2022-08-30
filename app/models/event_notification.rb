@@ -35,6 +35,8 @@ class EventNotification < ActiveRecord::Base
       owner.class.name
     end
 
-    EventNotification.create(action: action, owner_id: owner.id, owner_type: owner_type, current_user_id: User&.current&.id)
+    if Setting.plugin_redmine_event_notifier["enable_#{owner_type.underscore.pluralize}"] == "1"
+      EventNotification.create(action: action, owner_id: owner.id, owner_type: owner_type, current_user_id: User&.current&.id)
+    end
   end
 end

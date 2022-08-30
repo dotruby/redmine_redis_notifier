@@ -22,6 +22,8 @@ This plugin was developed and tested with Redmine 5.x. Thanks to DOM Digital Onl
 
 Each internal object event is stored in a new table `event_notifications`. You can also view the events in Redmine in the admin section. If a message needs to be resend for any reason, you can do so as well.
 
+If you want you can disable the creation of event notifications for certain models in the configuration section of the plugin. If disabled, event notification record will be stored and thus no redis message will be published.
+
 The subscription logic for the Redis channels is totally up to you. An easy example on how to deal with Redis subscriptions in Ruby can be found [here](https://github.com/redis/redis-rb/blob/master/examples/pubsub.rb), but you can of course use any language to implement your own needs. You could also use pattern subscribe to subscribe to all event_notifications in Redis: `PSUBSCRIBE redmine/event_notifications/*`
 
 ## Events and actions

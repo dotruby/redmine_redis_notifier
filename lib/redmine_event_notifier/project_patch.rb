@@ -1,12 +1,12 @@
 module RedmineEventNotifier
   module ProjectPatch
     def archive
-      EventNotification.create(action: "archive", owner: self, current_user_id: User&.current&.id)
+      EventNotification.track("archive", self)
       super()
     end
 
     def unarchive
-      EventNotification.create(action: "unarchive", owner: self, current_user_id: User&.current&.id)
+      EventNotification.track("unarchive", self)
       super()
     end
   end

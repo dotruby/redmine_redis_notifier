@@ -1,6 +1,7 @@
 # English strings go here for Rails i18n
 en:
+  event_notification: Event Notification
   event_notifications: Event Notifications
   event_notification_publish: Publish
 
-  redmine_event_notifier_enable_for: "Enable notifications for:"
+  redmine_event_notifier_enable_notifications: Enable notifications

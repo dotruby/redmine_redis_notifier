@@ -18,7 +18,7 @@
       <tbody>
         <% @event_notifications.each do |event_notification| %>
         <tr id="<%= dom_id event_notification %>" class="event_notifications">
-          <td class="id"><%= event_notification.id %></td>
+          <td class="id"><%= link_to event_notification.id, event_notification_path(event_notification) %></td>
           <td class="subject_type"><%= event_notification.subject_type %></td>
           <td class="subject">
             <% if event_notification.subject.present? %>
@@ -44,7 +44,7 @@
           <td class="action"><%= event_notification.action %></td>
           <td class="user">
             <% if event_notification.current_user.present? %>
-              <%= event_notification.current_user.id %>
+              <%= link_to event_notification.current_user.login, user_path(event_notification.current_user) %>
             <% else %>
               <%= event_notification.current_user_id %>
               (Deleted User)
@@ -67,4 +67,9 @@
   <span class="pagination"><%= pagination_links_full @event_notification_pages, @event_notification_count %></span>
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%=l(:label_administration)%></h3>
+  <%= render :partial => 'admin/menu' %>
 <% end %>

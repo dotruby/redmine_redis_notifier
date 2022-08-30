@@ -4,7 +4,7 @@ module RedmineEventNotifier
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        has_many :event_notifications, as: :subject, dependent: :nullify
+        has_many :event_notifications, as: :subject
 
         after_commit :save_create_event_notification, on: :create
         after_commit :save_update_event_notification, on: :update

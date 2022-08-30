@@ -89,7 +89,6 @@ jobs:
           RAILS_ENV: test
         working-directory: redmine
         run: |
-          bundle exec rake db:create
-          bundle exec rake db:migrate
+          bundle exec rake db:setup
           bundle exec rake redmine:plugins:migrate
           rails test plugins/redmine_event_notifier/test

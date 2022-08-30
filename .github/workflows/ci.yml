@@ -1,4 +1,4 @@
-name: Plugin Test
+name: CI
 
 env:
   PLUGIN_NAME: redmine_redis_notifier

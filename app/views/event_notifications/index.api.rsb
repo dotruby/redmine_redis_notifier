@@ -1,0 +1,14 @@
+api.array :event_notifications, api_meta(total_count: @event_notifications_count, offset: @offset, limit: @limit) do
+  @event_notifications.each do |event_notification|
+    api.event_notification do
+      api.id event_notification.id
+      api.owner_id event_notification.owner_id
+      api.owner_type event_notification.owner_type
+      api.action event_notification.action
+      api.sent_at event_notification.sent_at
+      api.created_at event_notification.created_at
+      api.current_user_id event_notification.current_user_id
+      api.error event_notification.error
+    end
+  end
+end

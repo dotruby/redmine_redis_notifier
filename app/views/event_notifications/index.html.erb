@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <% @event_notifications.each do |event_notification| %>
-      <tr id="event-notification-<%= event_notification.id %>" class="event-notification">
+      <tr id="<%= dom_id event_notification %>" class="event_notifications">
         <td class="id"><%= event_notification.id %></td>
         <td class="action"><%= event_notification.action %></td>
         <td class="owner_id"><%= event_notification.owner_id %></td>

@@ -26,16 +26,20 @@ The subscription logic for the Redis channels is totally up to you. An easy exam
 
 ## Events and actions
 
-These models are tracked with the corresponding actions. The information sent to the channels is very minimal, it's basically only the object id. The idea is call the Redmine REST API for retrieving the full objects and performing your own actions after you subscribed to the events.
+These models are tracked with the corresponding actions. The information sent to the channels is very minimal, it's basically only the object id and the user who performed the change. The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
 
 | Model  | Actions | Redis publish channel | Message Data |
 | ------------- | ------------- | ------------- | ------------- |
-| Group  | `create\|update\|destroy`  | `redmine/event_notifications/groups/#{action}` | `{"id": 1}` |
-| Issue  | `create\|update\|destroy`  | `redmine/event_notifications/issues/#{action}` | `{"id": 1}` |
-| Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/event_notifications/projects/#{action}` | `{"id": 1}` |
-| Role  | `create\|update\|destroy`  | `redmine/event_notifications/roles/#{action}` | `{"id": 1}` |
-| TimeEvent  | `create\|update\|destroy`  | `redmine/event_notifications/time_events/#{action}` | `{"id": 1}` |
-| User  | `create\|update\|destroy`  | `redmine/event_notifications/users/#{action}` | `{"id": 1}` |
+| Group  | `create\|update\|destroy`  | `redmine/event_notifications/groups/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| Issue  | `create\|update\|destroy`  | `redmine/event_notifications/issues/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/event_notifications/projects/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| Role  | `create\|update\|destroy`  | `redmine/event_notifications/roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| TimeEvent  | `create\|update\|destroy`  | `redmine/event_notifications/time_events/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| User  | `create\|update\|destroy`  | `redmine/event_notifications/users/#{action}` | `{"id": 1, "current_user_id": 1}` |
+
+## REST APi
+
+You can also get all event_notifications with REST API calls (`GET /event_notifications.xml` or `GET /event_notifications.json`). For an  individual event_notification use `GET /event_notifications/1.xml` or `GET /event_notifications/1.json`
 
 ## Uninstall
 

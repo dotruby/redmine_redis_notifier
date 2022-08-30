@@ -57,28 +57,27 @@ jobs:
           ghostscript
           gsfonts
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '${{ matrix.ruby }}'
-          bundler-cache: true
-
-      - run: ruby -v
-
-      - name: Prepare Redmine database
-        working-directory: redmine
-        run: |
-          cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
-
       - name: Checkout redmine_event_notifier plugin
         uses: actions/checkout@v2
         with:
           path: redmine/plugins/${{ env.PLUGIN_NAME }}
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '${{ matrix.ruby }}'
+
+      - run: ruby -v
+
       - name: Install Ruby dependencies
         working-directory: redmine
         run: |
           bundle install --jobs=4 --retry=3 --without development
+
+      - name: Prepare Redmine database
+        working-directory: redmine
+        run: |
+          cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
 
       - name: Install plugins dependencies and run plugins migrations
         env:

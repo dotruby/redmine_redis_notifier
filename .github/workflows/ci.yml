@@ -38,8 +38,6 @@ jobs:
       env:
         REDMINE_HOME: /usr/src/redmine
         RAILS_ENV: ${{ env.RAILS_ENV }}
-      volumes:
-        - ${{ github.workspace }}:/usr/src/redmine/plugins
 
     steps:
     - uses: actions/checkout@v3

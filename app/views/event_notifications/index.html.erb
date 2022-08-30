@@ -20,8 +20,14 @@
         <td class="action"><%= event_notification.action %></td>
         <td class="owner_id"><%= event_notification.owner.id %></td>
         <td class="created_at"><%= event_notification.created_at.to_date %></td>
-        <td class="send_at"><%= event_notification.send_at.to_date if event_notification.send_at.present? %></td>
-        <td class="publish"><%= link_to "Publish", publish_event_notification_path(event_notification), method: :put %></td>
+        <td class="send_at">
+          <% if event_notification.send_at.present? %>
+            <%= event_notification.send_at.to_date %>
+          <% else %>
+            <span class="icon icon-not-ok"></span>
+          <% end %>
+        </td>
+        <td class="publish"><%= link_to "Publish", publish_event_notification_path(event_notification), method: :put, class: "icon icon-arrow-right" %></td>
       </tr>
       <% end %>
     </tbody>

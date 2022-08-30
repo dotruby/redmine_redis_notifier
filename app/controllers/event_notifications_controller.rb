@@ -19,7 +19,16 @@ class EventNotificationsController < ApplicationController
     end
   end
 
+  def show
+    resource
+    respond_to do |format|
+      format.html
+      format.api
+    end
+  end
+
   def publish
+    resource
     flash[:notice] = "Event Notification ##{resource.id} has been published."
     redirect_to event_notifications_path
   end

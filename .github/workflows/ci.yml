@@ -62,22 +62,24 @@ jobs:
         with:
           path: redmine/plugins/${{ env.PLUGIN_NAME }}
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '${{ matrix.ruby }}'
-
-      - run: ruby -v
-
-      - name: Prepare Redmine database
+      - name: Copy Redmine database config
         working-directory: redmine
         run: |
           cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
 
-      - name: Install Ruby dependencies
+      - name: Setup Ruby
         working-directory: redmine
-        run: |
-          bundle install --jobs=4 --retry=3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '${{ matrix.ruby }}'
+          bundler-cache: true
+
+      - run: ruby -v
+
+      # - name: Install Ruby dependencies
+      #   working-directory: redmine
+      #   run: |
+      #     bundle install --jobs=4 --retry=3
 
       - name: Run plugin tests
         env:
@@ -89,6 +91,7 @@ jobs:
           RAILS_ENV: test
         working-directory: redmine
         run: |
-          bundle exec rake db:setup
+          bundle exec rake db:create
+          bundle exec rake db:migrate
           bundle exec rake redmine:plugins:migrate
           rails test plugins/redmine_event_notifier/test

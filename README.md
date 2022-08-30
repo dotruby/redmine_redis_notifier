@@ -1,7 +1,7 @@
 # 📣 Redmine Redis Notifier
 [![Plugin Test](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml/badge.svg)](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml)
 
-This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the the given message information in any way you want. Use cases could be something like:
+This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the given message information in any way you want. Use cases could be something like:
 
 * On project creation also create a folder structure on the file server
 * On user creation add the user to certain lists
@@ -60,11 +60,11 @@ You can also get all redis_notifications with REST API calls (`GET /redis_notifi
 
 ## 🗑️ Uninstall
 
-1. Remove this gem by first removing the database table:
+1. Remove the database table:
 ```
 RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier VERSION=0
 ```
-2. Remove this plugin by going in the plugins folder and remove the plugin `redmine_redis_notifier`:
+2. Remove `redmine_redis_notifier` folder in the plugins folder:
 ```
 rm -r redmine_redis_notifier
 ```

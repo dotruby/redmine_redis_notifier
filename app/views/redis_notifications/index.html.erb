@@ -1,0 +1,75 @@
+<%= title l(:redis_notifications) %>
+
+<% if @redis_notifications.any? %>
+  <div class="autoscroll">
+    <table class="list redis-notifications">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Subject Type</th>
+          <th>Subject</th>
+          <th>Action</th>
+          <th>User</th>
+          <th>Created</th>
+          <th>Published At</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @redis_notifications.each do |redis_notification| %>
+        <tr id="<%= dom_id redis_notification %>" class="redis_notifications">
+          <td class="id"><%= link_to redis_notification.id, redis_notification_path(redis_notification) %></td>
+          <td class="subject_type"><%= redis_notification.subject_type %></td>
+          <td class="subject">
+            <% if redis_notification.subject.present? %>
+              <% case redis_notification.subject_type %>
+              <% when "Project" %>
+                <%= link_to redis_notification.subject.name, project_path(redis_notification.subject) %>
+              <% when "Issue" %>
+                <%= link_to redis_notification.subject.subject, issue_path(redis_notification.subject) %>
+              <% when "User" %>
+                <%= link_to redis_notification.subject.login, user_path(redis_notification.subject) %>
+              <% when "Group" %>
+                <%= link_to redis_notification.subject.lastname, group_path(redis_notification.subject) %>
+              <% when "Role" %>
+                <%= link_to redis_notification.subject.name, edit_role_path(redis_notification.subject) %>
+              <% when "TimeEntry" %>
+                <%= link_to redis_notification.subject.project.name, project_time_entries_path(redis_notification.subject.project) %>
+              <% end %>
+            <% else %>
+              <%= redis_notification.subject_id %>
+              (Object Deleted)
+            <% end %>
+          </td>
+          <td class="action"><%= redis_notification.action %></td>
+          <td class="user">
+            <% if redis_notification.current_user.present? %>
+              <%= link_to redis_notification.current_user.login, user_path(redis_notification.current_user) %>
+            <% else %>
+              <%= redis_notification.current_user_id %>
+              (Deleted User)
+            <% end %>
+          </td>
+          <td class="created_at"><%= format_time(redis_notification.created_at) %></td>
+          <td class="published_at">
+            <% if redis_notification.published_at.present? %>
+              <%= format_time(redis_notification.published_at) %>
+            <% else %>
+              <span class="icon icon-not-ok" title="<%= redis_notification.error %>"></span>
+            <% end %>
+          </td>
+          <td class="publish"><%= link_to l(:redis_notification_publish), publish_redis_notification_path(redis_notification), method: :put, class: "icon icon-arrow-right" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <span class="pagination"><%= pagination_links_full @redis_notification_pages, @redis_notification_count %></span>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%=l(:label_administration)%></h3>
+  <%= render partial: 'admin/menu' %>
+<% end %>

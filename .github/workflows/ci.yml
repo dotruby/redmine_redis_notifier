@@ -1,7 +1,7 @@
 name: Plugin Test
 
 env:
-  PLUGIN_NAME: redmine_event_notifier
+  PLUGIN_NAME: redmine_redis_notifier
   REDMINE_VERSION: 5.0.2
   RAILS_ENV: test
 
@@ -47,7 +47,7 @@ jobs:
           ref: ${{ env.REDMINE_VERSION }}
           path: redmine
 
-      - name: Checkout redmine_event_notifier plugin
+      - name: Checkout redmine_redis_notifier plugin
         uses: actions/checkout@v2
         with:
           path: redmine/plugins/${{ env.PLUGIN_NAME }}
@@ -55,7 +55,7 @@ jobs:
       - name: Copy Redmine database config
         working-directory: redmine
         run: |
-          cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
+          cp plugins/redmine_redis_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -79,4 +79,4 @@ jobs:
           bundle exec rake db:create
           bundle exec rake db:migrate
           bundle exec rake redmine:plugins:migrate
-          bundle exec rails test plugins/redmine_event_notifier/test
+          bundle exec rails test plugins/redmine_redis_notifier/test

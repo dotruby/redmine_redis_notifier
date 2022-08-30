@@ -1,8 +1,8 @@
 # English strings go here for Rails i18n
 en:
-  event_notification: Event Notification
-  event_notifications: Event Notifications
-  event_notification_publish: Publish
+  redis_notification: Redis Notification
+  redis_notifications: Redis Notifications
+  redis_notification_publish: Publish
 
-  redmine_event_notifier_enable_for: "Enable notifications for:"
+  redmine_redis_notifier_enable_for: "Enable Redis notifications for:"
 

@@ -1,4 +1,4 @@
-class EventNotification < ActiveRecord::Base
+class RedisNotification < ActiveRecord::Base
   # associations
   #
   #
@@ -31,8 +31,8 @@ class EventNotification < ActiveRecord::Base
       subject.class.name
     end
 
-    if Setting.plugin_redmine_event_notifier["enable_#{subject_type.underscore.pluralize}"] == "1"
-      EventNotification.create(action: action, subject_id: subject.id, subject_type: subject_type, current_user_id: User&.current&.id)
+    if Setting.plugin_redmine_redis_notifier["enable_#{subject_type.underscore.pluralize}"] == "1"
+      RedisNotification.create(action: action, subject_id: subject.id, subject_type: subject_type, current_user_id: User&.current&.id)
     else
       true
     end
@@ -43,6 +43,6 @@ class EventNotification < ActiveRecord::Base
   #
 
   def publish
-    RedmineEventNotifier::Publisher.new(self).publish
+    RedmineRedisNotifier::Publisher.new(self).publish
   end
 end

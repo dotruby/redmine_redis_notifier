@@ -68,11 +68,11 @@ jobs:
           cp plugins/redmine_event_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
 
       - name: Setup Ruby
-        working-directory: redmine
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '${{ matrix.ruby }}'
           bundler-cache: true
+          working-directory: redmine
 
       - run: ruby -v
 

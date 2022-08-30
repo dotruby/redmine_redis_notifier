@@ -1,0 +1,34 @@
+<div>
+  <b><%= l(:redmine_event_notifier_enable_for) %></b>
+</div>
+
+<div>
+  <%= l(:label_user_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_users]", "1", @settings["redmine_event_notifier_users"] %>
+</div>
+
+<div>
+  <%= l(:label_group_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_groups]", "1", @settings["redmine_event_notifier_groups"] %>
+</div>
+
+<div>
+  <%= l(:label_role_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_roles]", "1", @settings["redmine_event_notifier_roles"] %>
+</div>
+
+<div>
+  <%= l(:label_project_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_projects]", "1", @settings["redmine_event_notifier_projects"] %>
+</div>
+
+<div>
+  <%= l(:label_issue_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_issues]", "1", @settings["redmine_event_notifier_issues"] %>
+</div>
+
+<div>
+  <%= l(:label_time_entry_plural) %>
+  <%= check_box_tag "settings[redmine_event_notifier_time_entries]", "1", @settings["redmine_event_notifier_time_entries"] %>
+</div>
+

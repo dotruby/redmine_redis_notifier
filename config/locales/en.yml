@@ -2,3 +2,5 @@
 en:
   event_notifications: Event Notifications
   event_notification_publish: Publish
+
+  redmine_event_notifier_enable_for: "Enable notifications for:"

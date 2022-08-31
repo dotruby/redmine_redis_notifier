@@ -12,13 +12,13 @@ on:
 
 jobs:
   test:
-    name: ${{ github.workflow }} redmine-${{ matrix.version }} ${{ matrix.db }}
+    name: redmine-${{ matrix.version }} ${{ matrix.db }}
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        version: ['4.2', '5.0']
+        version: ['5.0.2']
         db: ['postgres']
 
     services:
@@ -40,17 +40,7 @@ jobs:
         RAILS_ENV: ${{ env.RAILS_ENV }}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Run plugin tests
-      env:
-        # use localhost for the host here because we have specified a container for the job.
-        # If we were running the job on the VM this would be postgres
-        PGHOST: localhost
-        PGUSER: postgres
-        PGPASSWORD: postgres
-        RAILS_ENV: ${{ env.RAILS_ENV }}
-      working-directory: redmine
+    - name: Log ruby and rails version
       run: |
-        pwd
-        cd /usr/src/redmine/plugins
-        ls -la
+        ruby -v
+        rails -v

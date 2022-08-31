@@ -4,6 +4,7 @@ env:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   REDMINE_HOME: /usr/src/redmine
+  RAILS_ENV: test
 
 on:
   push:
@@ -40,32 +41,9 @@ jobs:
 
     container:
       image: redmine:${{ matrix.version }}
-      env:
-        REDMINE_HOME: ${{ env.REDMINE_HOME }}
-        RAILS_ENV: test
 
     steps:
-    - name: Install essential
-      run: apt-get update && apt-get install -y build-essential
-
-    - name: Create database.yml (PostgreSQL)
+    - name: Test
       run: |
-        cat > config/database.yml <<EOF
-        test:
-          adapter: "postgresql"
-          host: "postgres"
-          port: 5432
-          username: "${{ env.POSTGRES_USER }}"
-          password: "${{ env.POSTGRES_PASSWORD }}"
-          database: "redmine"
-          encoding: "utf8"
-        EOF
-
-    - name: Setup environment
-      run: |
-        bundle install
-        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
-
-    - name: Run plugin tests
-      run: |
-        bundle exec rails test plugins/redmine_redis_notifier/test
+        echo "$(basename ${GITHUB_REPOSITORY})"
+        echo "${{ github.workspace }}"

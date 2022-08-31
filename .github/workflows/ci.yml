@@ -50,4 +50,3 @@ jobs:
         echo "PLUGIN_NAME=${PLUGIN_NAME}" >> $GITHUB_ENV
         cd ${REDMINE_HOME}/plugins
         ln -s ${PLUGIN_DIR} ${PLUGIN_NAME}
-        ls -la

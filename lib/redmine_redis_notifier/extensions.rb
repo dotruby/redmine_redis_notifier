@@ -1,5 +1,9 @@
 module RedmineRedisNotifier
   module Extensions
+    def self.models
+      [Issue, Group, Project, Role, TimeEntry, User]
+    end
+
     def self.included(base)
       base.send(:include, InstanceMethods)
 
@@ -28,7 +32,7 @@ module RedmineRedisNotifier
   end
 end
 
-[Issue, Group, Project, Role, TimeEntry, User].each do |redmine_model|
+RedmineRedisNotifier::Extensions.models.each do |redmine_model|
   unless redmine_model.included_modules.include?(RedmineRedisNotifier::Extensions)
     redmine_model.send(:include, RedmineRedisNotifier::Extensions)
   end

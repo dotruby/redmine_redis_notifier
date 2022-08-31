@@ -43,10 +43,10 @@ jobs:
       image: redmine:${{ matrix.version }}
 
     steps:
-      - name: Checkout redmine_redis_notifier plugin
-        uses: actions/checkout@v2
-        with:
-          path: ${{ env.REDMINE_HOME }}/plugins/$(basename ${GITHUB_REPOSITORY})
+    - name: Checkout redmine_redis_notifier plugin
+      uses: actions/checkout@v2
+      with:
+        path: ${{ env.REDMINE_HOME }}/plugins/$(basename ${GITHUB_REPOSITORY})
 
     - name: Test
       run: |

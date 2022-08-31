@@ -30,9 +30,6 @@ jobs:
     services:
       postgres:
         image: postgres:14
-        env:
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -53,23 +50,23 @@ jobs:
           adapter: "postgresql"
           host: "postgres"
           port: 5432
-          username: "${{ env.POSTGRES_USER }}"
-          password: "${{ env.POSTGRES_PASSWORD }}"
-          database: "redmine"
-          encoding: "utf8"
         EOF
 
-    - name: Copy plugin
-      run: |
-        cd plugins
-        ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
-        ls -la
+    # - name: Copy plugin
+    #   run: |
+    #     cd plugins
+    #     ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
+    #     ls -la
 
     - name: Setup environment
       run: |
         bundle install
         bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
-    - name: Run plugin tests
+    # - name: Run plugin tests
+    #   run: |
+    #     bundle exec rails test plugins/redmine_redis_notifier/test
+
+    - name: Setup environment
       run: |
-        bundle exec rails test plugins/redmine_redis_notifier/test
+        rails runner "p Project.all.count"

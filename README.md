@@ -13,22 +13,31 @@ This plugin was developed and tested with Redmine 5.x. Thanks to [Digital Online
 
 ![Screenshot index page](screenshots/index_page.png)
 
+![Screenshot redis subscribe](screenshots/redis_subscribe.png)
+
 ## 🚀 Install
 
 1. Ensure that Redis is running on your server and the connection is either defined by the default localhost connection or set with the `REDIS_URL` environment variable, e.g.
 ```
 export REDIS_URL=redis://localhost:6379
 ```
+
 2. Install the plugin with cloning the code into your `plugin` directory in your Redmine installation, e.g.
 ```
 git clone https://github.com/dotruby/redmine_redis_notifier
 ```
-3. Run bundle install to install the redis gem: `bundle install`
+
+3. Run bundle install to install the redis gem:
+```
+bundle install
+```
+
 4. Run plugin migrations:
 ```
 RAILS_ENV=production bundle exec rake redmine:plugins:migrate NAME=redmine_redis_notifier
 ```
-5. Restart redmine to pickup the changes
+
+5. Restart redmine to pick up the changes
 
 ## 📝 Usage
 

@@ -38,17 +38,15 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v2
-
       - name: Checkout Redmine
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: redmine/redmine
           ref: ${{ env.REDMINE_VERSION }}
           path: redmine
 
       - name: Checkout redmine_redis_notifier plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: redmine/plugins/${{ env.PLUGIN_NAME }}
 
@@ -64,8 +62,6 @@ jobs:
           bundler-cache: true
           working-directory: redmine
 
-      - run: ruby -v
-
       - name: Run plugin tests
         env:
           # use localhost for the host here because we have specified a container for the job.
@@ -76,8 +72,6 @@ jobs:
           RAILS_ENV: test
         working-directory: redmine
         run: |
-          bundle exec rake db:drop
-          bundle exec rake db:create
-          bundle exec rake db:migrate
-          bundle exec rake redmine:plugins:migrate
+          ruby -v
+          bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
           bundle exec rails test plugins/redmine_redis_notifier/test

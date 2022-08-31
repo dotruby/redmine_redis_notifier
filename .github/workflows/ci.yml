@@ -1,7 +1,9 @@
 name: CI
 
 env:
-  RAILS_ENV: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  REDMINE_HOME: /usr/src/redmine
 
 on:
   push:
@@ -14,6 +16,9 @@ jobs:
   test:
     name: redmine-${{ matrix.version }} ${{ matrix.db }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.REDMINE_HOME }}
 
     strategy:
       fail-fast: false
@@ -25,8 +30,8 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,11 +41,32 @@ jobs:
     container:
       image: redmine:${{ matrix.version }}
       env:
-        REDMINE_HOME: /usr/src/redmine
-        RAILS_ENV: ${{ env.RAILS_ENV }}
+        REDMINE_HOME: ${{ env.REDMINE_HOME }}
+        RAILS_ENV: test
 
     steps:
-    - name: Log ruby and rails version
+    - name: Install essential
+      run: apt-get update && apt-get install -y build-essential
+
+    - name: Create database.yml (PostgreSQL)
       run: |
-        ruby -v
-        rails -v
+        cat > config/database.yml <<EOF
+        test:
+          adapter: "postgresql"
+          host: "postgres"
+          port: 5432
+          username: "${{ env.POSTGRES_USER }}"
+          password: "${{ env.POSTGRES_PASSWORD }}"
+          database: "redmine"
+          encoding: "utf8"
+        EOF
+
+    - name: Setup environment
+      run: |
+        bundle config set --local with 'test'
+        bundle install
+        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
+
+    - name: Run plugin tests
+      run: |
+        bundle exec rails test plugins/redmine_redis_notifier/test

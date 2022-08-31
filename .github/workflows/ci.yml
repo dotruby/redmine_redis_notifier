@@ -50,9 +50,13 @@ jobs:
       run: |
         cat > config/database.yml <<EOF
         test:
-          adapter: "postgresql"
-          host: "postgres"
+          adapter: postgresql
+          host: postgres
           port: 5432
+          username: <%= ENV["POSTGRES_USER"]
+          password: <%= ENV["POSTGRES_PASSWORD"]
+          database: "redmine"
+          encoding: "utf8"
         EOF
 
     # - name: Copy plugin

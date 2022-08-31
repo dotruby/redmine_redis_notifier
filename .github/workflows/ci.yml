@@ -63,7 +63,6 @@ jobs:
 
     - name: Setup environment
       run: |
-        bundle config set --local with 'test'
         bundle install
         bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 

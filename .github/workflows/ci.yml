@@ -17,9 +17,9 @@ jobs:
   test:
     name: redmine-${{ matrix.version }} ${{ matrix.db }}
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ${{ env.REDMINE_HOME }}
+    defaults:
+      run:
+        working-directory: ${{ env.REDMINE_HOME }}
 
     strategy:
       fail-fast: false
@@ -45,8 +45,6 @@ jobs:
     steps:
     - name: Test
       run: |
-        PLUGIN_DIR=`pwd`
-        PLUGIN_NAME=`basename ${PLUGIN_DIR}`
-        echo "PLUGIN_NAME=${PLUGIN_NAME}" >> $GITHUB_ENV
-        cd ${REDMINE_HOME}/plugins
-        ln -s ${PLUGIN_DIR} ${PLUGIN_NAME}
+        cd plugins
+        ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
+        ls -la

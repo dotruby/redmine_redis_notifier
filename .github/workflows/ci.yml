@@ -45,4 +45,4 @@ jobs:
     steps:
     - name: Test
       run: |
-        ls -la ${{ env.REDMINE_HOME }}
+        ls -la ${{ env.REDMINE_HOME }}/plugins

@@ -8,21 +8,24 @@ class ExtensionsTest < ActiveSupport::TestCase
   end
 
   test "if object creation fails, no redis_notification is created" do
-    assert_no_difference -> { RedisNotification.count } do
+    assert_no_difference "RedisNotification.count" do
       Project.create(name: "Test Project")
     end
   end
 
   test "on object creation a redis_notification is created" do
-    assert_difference -> { RedisNotification.where(action: "create", subject_type: "Project").count } do
+    project_scope = RedisNotification.where(action: "create", subject_type: "Project")
+
+    assert_difference "project_scope.count" do
       Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
     end
   end
 
   test "on object update a redis_notification is created" do
     project = Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
+    project_scope = RedisNotification.where(action: "update", subject: project)
 
-    assert_difference -> { RedisNotification.where(action: "update", subject: project).count } do
+    assert_difference "project_scope.count" do
       project.name = "New Name"
       project.save!
     end
@@ -30,8 +33,9 @@ class ExtensionsTest < ActiveSupport::TestCase
 
   test "on object destroy a redis_notification is created" do
     project = Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
+    project_scope = RedisNotification.where(action: "destroy", subject_type: "Project", subject_id: project.id)
 
-    assert_difference -> { RedisNotification.where(action: "destroy", subject_type: "Project", subject_id: project.id).count } do
+    assert_difference "project_scope.count" do
       project.destroy
     end
   end

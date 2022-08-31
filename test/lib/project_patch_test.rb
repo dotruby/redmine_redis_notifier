@@ -9,8 +9,9 @@ class ProjectPatchTest < ActiveSupport::TestCase
 
   test "on project archive call, a redis notification is created" do
     project = Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
+    project_scope = RedisNotification.where(action: "archive", subject: project)
 
-    assert_difference -> { RedisNotification.where(action: "archive", subject: project).count } do
+    assert_difference "project_scope.count" do
       project.archive
     end
   end
@@ -23,8 +24,9 @@ class ProjectPatchTest < ActiveSupport::TestCase
 
   test "on project unarchive call, a redis notification is created" do
     project = Project.create!(name: "Test Project", identifier: SecureRandom.hex(8), status: Project::STATUS_ARCHIVED)
+    project_scope = RedisNotification.where(action: "unarchive", subject: project)
 
-    assert_difference -> { RedisNotification.where(action: "unarchive", subject: project).count } do
+    assert_difference "project_scope.count" do
       project.unarchive
     end
   end

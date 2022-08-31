@@ -17,9 +17,9 @@ jobs:
   test:
     name: redmine-${{ matrix.version }} ${{ matrix.db }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.REDMINE_HOME }}
+    # defaults:
+    #   run:
+    #     working-directory: ${{ env.REDMINE_HOME }}
 
     strategy:
       fail-fast: false
@@ -43,12 +43,11 @@ jobs:
       image: redmine:${{ matrix.version }}
 
     steps:
-    - name: Checkout redmine_redis_notifier plugin
-      uses: actions/checkout@v2
-      with:
-        path: ${{ env.REDMINE_HOME }}/plugins/$(basename ${GITHUB_REPOSITORY})
-
     - name: Test
       run: |
-        echo "${{ env.REDMINE_HOME }}/plugins/$(basename ${GITHUB_REPOSITORY})"
-        ls -la ${{ env.REDMINE_HOME }}/plugins
+        PLUGIN_DIR=`pwd`
+        PLUGIN_NAME=`basename ${PLUGIN_DIR}`
+        echo "PLUGIN_NAME=${PLUGIN_NAME}" >> $GITHUB_ENV
+        cd ${REDMINE_HOME}/plugins
+        ln -s ${PLUGIN_DIR} ${PLUGIN_NAME}
+        ls -la

@@ -41,7 +41,7 @@ jobs:
 
     container:
       image: redmine:${{ matrix.version }}
-      options: -v ${{ github.workspace }}:${{ env.REDMINE_HOME }}/plugins
+      options: -v ${{ github.workspace }}:/usr/src/redmine/plugins
 
     steps:
     - uses: actions/checkout@v3

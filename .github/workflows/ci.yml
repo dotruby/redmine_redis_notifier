@@ -59,11 +59,11 @@ jobs:
           encoding: "utf8"
         EOF
 
-    # - name: Copy plugin
-    #   run: |
-    #     cd plugins
-    #     ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
-    #     ls -la
+    - name: Copy plugin
+      run: |
+        cd plugins
+        ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
+        ls -la
 
     - name: Setup environment
       run: |
@@ -76,4 +76,4 @@ jobs:
 
     - name: Setup environment
       run: |
-        rails runner "p Project.all.count"
+        pwd

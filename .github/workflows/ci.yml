@@ -42,7 +42,7 @@ jobs:
     container:
       image: redmine:${{ matrix.version }}
       volumes:
-        - ${{ github.workspace }}:${{ env.REDMINE_HOME }}/plugins/$(basename ${GITHUB_REPOSITORY})
+        - ${{ github.workspace }}:/usr/src/redmine/plugins/$(basename ${GITHUB_REPOSITORY})
 
     steps:
     - uses: actions/checkout@v3

@@ -63,7 +63,9 @@ jobs:
       run: |
         # cd plugins
         # cp -a ${{ github.workspace }}/ $(basename ${GITHUB_REPOSITORY})
-        ls -la ${{ github.workspace }}
+        # ls -la ${{ github.workspace }}
+        cd $GITHUB_WORKSPACE
+        ls -la
 
     # - name: Setup environment
     #   run: |

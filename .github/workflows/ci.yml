@@ -24,8 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ['5.0.2']
-        db: ['postgres']
+        version: [4.2.7, 5.0.2]
+        db: [postgres]
 
     services:
       postgres:

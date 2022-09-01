@@ -61,7 +61,8 @@ jobs:
 
     - name: Copy plugin
       run: |
-        ln -s ${{ github.workspace }} plugins/$(basename ${GITHUB_REPOSITORY})
+        cd plugins
+        ln -s ${{ github.workspace }} $(basename ${GITHUB_REPOSITORY})
         ls -la
 
     - name: Setup environment
@@ -77,3 +78,4 @@ jobs:
       run: |
         pwd
         cd plugins/$(basename ${GITHUB_REPOSITORY})
+        ls -la

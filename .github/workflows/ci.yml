@@ -53,8 +53,8 @@ jobs:
           adapter: postgresql
           host: postgres
           port: 5432
-          username: <%= ENV["POSTGRES_USER"]
-          password: <%= ENV["POSTGRES_PASSWORD"]
+          username: <%= ENV["POSTGRES_USER"] %>
+          password: <%= ENV["POSTGRES_PASSWORD"] %>
           database: "redmine"
           encoding: "utf8"
         EOF

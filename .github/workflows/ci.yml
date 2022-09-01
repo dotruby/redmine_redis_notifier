@@ -65,7 +65,7 @@ jobs:
 
     - name: Setup environment
       run: |
-        bundle install
+        bundle install --with test
         bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
     - name: Run plugin tests

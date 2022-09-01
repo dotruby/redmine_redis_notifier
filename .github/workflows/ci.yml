@@ -43,6 +43,7 @@ jobs:
       image: redmine:${{ matrix.version }}
 
     steps:
+    - uses: actions/checkout@v3
     - name: Install essential
       run: apt-get update && apt-get install -y build-essential
 

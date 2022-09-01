@@ -63,24 +63,11 @@ jobs:
           encoding: "utf8"
         EOF
 
-    - name: Copy plugin
+    - name: Setup environment
       run: |
-        cd plugins
-        ls -la
-        cd $(basename ${GITHUB_REPOSITORY})
-        ls -la
+        bundle install
+        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
-    # - name: Setup environment
-    #   run: |
-    #     bundle install
-    #     bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
-
-    # - name: Run plugin tests
-    #   run: |
-    #     bundle exec rails test plugins/redmine_redis_notifier/test
-
-    # - name: Setup environment
-    #   run: |
-    #     pwd
-    #     cd plugins/$(basename ${GITHUB_REPOSITORY})
-    #     ls -la
+    - name: Run plugin tests
+      run: |
+        bundle exec rails test plugins/redmine_redis_notifier/test

@@ -1,4 +1,4 @@
-class CreateRedisNotifications < ActiveRecord::Migration
+class CreateRedisNotifications < ActiveRecord::Migration[5.0]
   def change
     create_table :redis_notifications do |t|
       t.string :action

@@ -61,21 +61,21 @@ jobs:
 
     - name: Copy plugin
       run: |
-        cd plugins
-        cp -a ${{ github.workspace }}/ $(basename ${GITHUB_REPOSITORY})
-        ls -la
+        # cd plugins
+        # cp -a ${{ github.workspace }}/ $(basename ${GITHUB_REPOSITORY})
+        ls -la ${{ github.workspace }}
 
-    - name: Setup environment
-      run: |
-        bundle install
-        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
+    # - name: Setup environment
+    #   run: |
+    #     bundle install
+    #     bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
     # - name: Run plugin tests
     #   run: |
     #     bundle exec rails test plugins/redmine_redis_notifier/test
 
-    - name: Setup environment
-      run: |
-        pwd
-        cd plugins/$(basename ${GITHUB_REPOSITORY})
-        ls -la
+    # - name: Setup environment
+    #   run: |
+    #     pwd
+    #     cd plugins/$(basename ${GITHUB_REPOSITORY})
+    #     ls -la

@@ -1,8 +1,9 @@
 name: CI
 
 env:
-  PLUGIN_NAME: redmine_redis_notifier
-  REDMINE_VERSION: 5.0.2
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  REDMINE_HOME: /usr/src/redmine
   RAILS_ENV: test
 
 on:
@@ -14,64 +15,59 @@ on:
 
 jobs:
   test:
-    name: ${{ github.workflow }} ${{ matrix.db }} ruby-${{ matrix.ruby }}
+    name: redmine-${{ matrix.version }} ${{ matrix.db }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.REDMINE_HOME }}
 
     strategy:
-      matrix:
-        ruby: ['3.1']
-        db: ['postgres']
       fail-fast: false
+      matrix:
+        version: [4.2.7, 5.0.2]
+        db: [postgres]
 
     services:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
+
+    container:
+      image: redmine:${{ matrix.version }}
+      volumes:
+        - ${{ github.workspace }}:/usr/src/redmine/plugins/redmine_redis_notifier
 
     steps:
-      - name: Checkout Redmine
-        uses: actions/checkout@v3
-        with:
-          repository: redmine/redmine
-          ref: ${{ env.REDMINE_VERSION }}
-          path: redmine
+    - uses: actions/checkout@v3
 
-      - name: Checkout redmine_redis_notifier plugin
-        uses: actions/checkout@v3
-        with:
-          path: redmine/plugins/${{ env.PLUGIN_NAME }}
+    - name: Install essential
+      run: apt-get update && apt-get install -y build-essential
 
-      - name: Copy Redmine database config
-        working-directory: redmine
-        run: |
-          cp plugins/redmine_redis_notifier/test/support/database_${{ matrix.db }}.yml config/database.yml
+    - name: Create database.yml (PostgreSQL)
+      run: |
+        cat > config/database.yml <<EOF
+        test:
+          adapter: postgresql
+          host: postgres
+          port: 5432
+          username: <%= ENV["POSTGRES_USER"] %>
+          password: <%= ENV["POSTGRES_PASSWORD"] %>
+          database: "redmine"
+          encoding: "utf8"
+        EOF
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '${{ matrix.ruby }}'
-          bundler-cache: true
-          working-directory: redmine
+    - name: Setup environment
+      run: |
+        bundle install --with test
+        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
-      - name: Run plugin tests
-        env:
-          # use localhost for the host here because we have specified a container for the job.
-          # If we were running the job on the VM this would be postgres
-          PGHOST: localhost
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          RAILS_ENV: test
-        working-directory: redmine
-        run: |
-          ruby -v
-          bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
-          bundle exec rails test plugins/redmine_redis_notifier/test
+    - name: Run plugin tests
+      run: |
+        bundle exec rails test plugins/redmine_redis_notifier/test

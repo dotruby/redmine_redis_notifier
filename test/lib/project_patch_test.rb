@@ -13,6 +13,7 @@ class ProjectPatchTest < ActiveSupport::TestCase
 
     assert_difference "project_scope.count" do
       project.archive
+      project.reload
     end
   end
 
@@ -28,6 +29,7 @@ class ProjectPatchTest < ActiveSupport::TestCase
 
     assert_difference "project_scope.count" do
       project.unarchive
+      project.reload
     end
   end
 end

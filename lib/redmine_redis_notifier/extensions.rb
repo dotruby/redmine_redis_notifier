@@ -1,7 +1,7 @@
 module RedmineRedisNotifier
   module Extensions
     def self.models
-      [Issue, Group, Project, Role, TimeEntry, User]
+      [Issue, Group, Member, Project, Role, TimeEntry, User]
     end
 
     def self.included(base)

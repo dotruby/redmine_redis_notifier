@@ -25,6 +25,8 @@
               <% case redis_notification.subject_type %>
               <% when "Project" %>
                 <%= link_to redis_notification.subject.name, project_path(redis_notification.subject) %>
+              <% when "Member" %>
+                <%= link_to redis_notification.subject.project.name, settings_project_path(redis_notification.subject.project, tab: "members") %>
               <% when "Issue" %>
                 <%= link_to redis_notification.subject.subject, issue_path(redis_notification.subject) %>
               <% when "User" %>

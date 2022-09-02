@@ -17,7 +17,8 @@ class ExtensionsTest < ActiveSupport::TestCase
     project_scope = RedisNotification.where(action: "create", subject_type: "Project")
 
     assert_difference "project_scope.count" do
-      Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
+      project = Project.create!(name: "Test Project", identifier: SecureRandom.hex(8))
+      project.reload
     end
   end
 
@@ -28,6 +29,7 @@ class ExtensionsTest < ActiveSupport::TestCase
     assert_difference "project_scope.count" do
       project.name = "New Name"
       project.save!
+      project.reload
     end
   end
 

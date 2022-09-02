@@ -6,7 +6,7 @@ Redmine::Plugin.register :redmine_redis_notifier do
   name "Redmine Redis Notifier"
   author "DotRuby GmbH"
   description "Redmine Plugin to publish object events to Redis for PubSub usage"
-  version "0.0.1"
+  version "0.1.0"
   url "https://github.com/dotruby/redmine_redis_notifier"
   author_url "https://www.dotruby.com/"
   requires_redmine version_or_higher: "5.0.0"
@@ -14,6 +14,7 @@ Redmine::Plugin.register :redmine_redis_notifier do
   settings partial: "settings/redmine_redis_notifier", default: {
     "enable_issues" => "1",
     "enable_groups" => "1",
+    "enable_members" => "1",
     "enable_projects" => "1",
     "enable_roles" => "1",
     "enable_time_entries" => "1",

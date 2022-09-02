@@ -9,7 +9,7 @@
           <th>Subject Type</th>
           <th>Subject</th>
           <th>Action</th>
-          <th>User</th>
+          <th>Current User</th>
           <th>Created</th>
           <th>Published At</th>
           <th></th>
@@ -46,7 +46,7 @@
             <% end %>
           </td>
           <td class="action"><%= redis_notification.action %></td>
-          <td class="user">
+          <td class="current-user">
             <% if redis_notification.current_user.present? %>
               <%= link_to redis_notification.current_user.login, user_path(redis_notification.current_user) %>
             <% else %>

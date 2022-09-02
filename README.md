@@ -1,5 +1,5 @@
 # 📣 Redmine Redis Notifier
-[![Plugin Test](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml/badge.svg)](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml)
+[![CI](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml/badge.svg)](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml)
 
 This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the given message information in any way you want. Use cases could be something like:
 
@@ -9,7 +9,7 @@ This Redmine Plugin enhances several core models to make use of a Redis PubSub l
 * Send an email on certain actions
 * etc. (possibilites are endless)
 
-This plugin was developed and tested with Redmine 5.x. Thanks to [Digital Online Media GmbH](https://www.dom.de) for allowing us to open source this.
+This plugin targets Redmine 5.x, but should work with 4.2.7 as well. Thanks to [Digital Online Media GmbH](https://www.dom.de) for allowing us to open source this.
 
 ![Screenshot index page](screenshots/index_page.png)
 

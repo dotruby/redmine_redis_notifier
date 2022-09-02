@@ -1,7 +1,7 @@
 # 📣 Redmine Redis Notifier
 [![CI](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml/badge.svg)](https://github.com/dotruby/redmine_redis_notifier/actions/workflows/ci.yml)
 
-This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscripe feature to further work with the given message information in any way you want. Use cases could be something like:
+This Redmine Plugin enhances several core models to make use of a Redis PubSub logic. Whenever such objects are created/updated/deleted, a message is published on a specific Redis channel. You could then implement you own subcription logic and use Redis subscribe feature to further work with the given message information in any way you want. Use cases could be something like:
 
 * On project creation also create a folder structure on the file server
 * On user creation add the user to certain lists
@@ -52,7 +52,7 @@ PSUBSCRIBE redmine/redis_notifications/*
 
 ## 🤖 Events and actions
 
-These mentioned models are tracked with the corresponding actions. Internally Rails callbacks are used on the model layer, so the plugin patches the models with enhanced logic. The information sent to the channels is very minimal, it's basically only the object id and the user who performed the change. The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
+These mentioned models are tracked with the corresponding actions. Internally Rails callbacks are used on the model layer, so the plugin patches the models with enhanced logic. The information sent to the channels is very minimal, it's basically only the object id and the user id who performed the change. The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
 
 | Model  | Actions | Redis publish channel | Message Data |
 | ------------- | ------------- | ------------- | ------------- |

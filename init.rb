@@ -15,6 +15,7 @@ Redmine::Plugin.register :redmine_redis_notifier do
     "enable_issues" => "1",
     "enable_groups" => "1",
     "enable_members" => "1",
+    "enable_member_roles" => "1",
     "enable_projects" => "1",
     "enable_roles" => "1",
     "enable_time_entries" => "1",

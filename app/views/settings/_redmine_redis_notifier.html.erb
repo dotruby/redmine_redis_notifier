@@ -16,6 +16,16 @@
   </p>
 
   <p>
+    <%= label_tag "settings[enable_members]", l(:label_member_plural) %>
+    <%= check_box_tag "settings[enable_members]", "1", @settings["enable_members"] %>
+  </p>
+
+  <p>
+    <%= label_tag "settings[enable_member_roles]", "#{l(:label_member)} #{l(:label_role_plural)}" %>
+    <%= check_box_tag "settings[enable_member_roles]", "1", @settings["enable_member_roles"] %>
+  </p>
+
+  <p>
     <%= label_tag "settings[enable_projects]", l(:label_project_plural) %>
     <%= check_box_tag "settings[enable_projects]", "1", @settings["enable_projects"] %>
   </p>

@@ -58,6 +58,7 @@ These mentioned models are tracked with the corresponding actions. Internally Ra
 | ------------- | ------------- | ------------- | ------------- |
 | Group  | `create\|update\|destroy`  | `redmine/redis_notifications/groups/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | Issue  | `create\|update\|destroy`  | `redmine/redis_notifications/issues/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| Member  | `create\|update\|destroy`  | `redmine/redis_notifications/members/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/redis_notifications/projects/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | Role  | `create\|update\|destroy`  | `redmine/redis_notifications/roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | TimeEvent  | `create\|update\|destroy`  | `redmine/redis_notifications/time_events/#{action}` | `{"id": 1, "current_user_id": 1}` |
@@ -82,6 +83,9 @@ rm -r redmine_redis_notifier
 
 ## 📙 Changelog
 ### HEAD (not yet released)
+
+### v0.1.0
+* Track Member change as well
 
 ### v0.0.1
 * Initial Release

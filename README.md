@@ -62,7 +62,7 @@ These mentioned models are tracked with the corresponding actions. Internally Ra
 | MemberRole  | `create\|update\|destroy`  | `redmine/redis_notifications/member_roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/redis_notifications/projects/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | Role  | `create\|update\|destroy`  | `redmine/redis_notifications/roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| TimeEvent  | `create\|update\|destroy`  | `redmine/redis_notifications/time_events/#{action}` | `{"id": 1, "current_user_id": 1}` |
+| TimeEntry  | `create\|update\|destroy`  | `redmine/redis_notifications/time_entries/#{action}` | `{"id": 1, "current_user_id": 1}` |
 | User  | `create\|update\|destroy`  | `redmine/redis_notifications/users/#{action}` | `{"id": 1, "current_user_id": 1}` |
 
 ## 🚛 REST APi
@@ -90,5 +90,3 @@ rm -r redmine_redis_notifier
 
 ### v0.0.1
 * Initial Release
-
-

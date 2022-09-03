@@ -37,18 +37,18 @@ class RedisNotification < ActiveRecord::Base
     end
 
     if Setting.plugin_redmine_redis_notifier["enable_#{subject_type.underscore.pluralize}"] == "1" && notification_table_exists?
-      redis_notification = RedisNotification.new(
+      attributes = {
         action: action,
         subject_id: subject.id,
         subject_type: subject_type,
         current_user_id: User&.current&.id
-      )
+      }
 
       ['project_id', 'issue_id', 'user_id', 'member_id', 'role_id'].each do |attribute|
-        redis_notification[attribute] = subject.send(attribute) if subject.has_attribute?(attribute)
+        attributes[attribute] = subject.send(attribute) if subject.has_attribute?(attribute)
       end
 
-      redis_notification.save
+      RedisNotification.create(attributes)
     else
       true
     end

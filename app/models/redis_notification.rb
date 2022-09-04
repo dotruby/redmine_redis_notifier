@@ -48,7 +48,7 @@ class RedisNotification < ActiveRecord::Base
         attributes[attribute] = subject.send(attribute) if subject.has_attribute?(attribute)
       end
 
-      RedisNotification.create(attributes)
+      create(attributes)
     else
       true
     end

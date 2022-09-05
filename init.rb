@@ -6,7 +6,7 @@ Redmine::Plugin.register :redmine_redis_notifier do
   name "Redmine Redis Notifier"
   author "DotRuby GmbH"
   description "Redmine Plugin to publish object events to Redis for PubSub usage"
-  version "0.1.0"
+  version "0.2.0"
   url "https://github.com/dotruby/redmine_redis_notifier"
   author_url "https://www.dotruby.com/"
   requires_redmine version_or_higher: "4.2.7"

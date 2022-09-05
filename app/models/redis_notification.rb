@@ -5,17 +5,18 @@ class RedisNotification < ActiveRecord::Base
 
   belongs_to :subject, polymorphic: true
   belongs_to :current_user, optional: true, class_name: "User"
-  belongs_to :project, optional: true
-  belongs_to :issue, optional: true
-  belongs_to :user, optional: true
-  belongs_to :member, optional: true
-  belongs_to :role, optional: true
 
   # validations
   #
   #
 
   validates :action, presence: true
+
+  # attributes
+  #
+  #
+
+  serialize :additional_data, JSON
 
   # callbacks
   #
@@ -45,7 +46,9 @@ class RedisNotification < ActiveRecord::Base
       }
 
       ['project_id', 'issue_id', 'user_id', 'member_id', 'role_id'].each do |attribute|
-        attributes[attribute] = subject.send(attribute) if subject.has_attribute?(attribute)
+        if subject.has_attribute?(attribute)
+          attributes[:additional_data] = Hash(attributes[:additional_data]).merge({attribute.to_sym => subject.send(attribute)})
+        end
       end
 
       create(attributes)

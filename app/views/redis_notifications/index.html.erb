@@ -9,9 +9,10 @@
           <th>Subject Type</th>
           <th>Subject</th>
           <th>Action</th>
-          <th>User</th>
+          <th>Current User</th>
           <th>Created</th>
           <th>Published At</th>
+          <th>Additional Data</th>
           <th></th>
         </tr>
       </thead>
@@ -46,7 +47,7 @@
             <% end %>
           </td>
           <td class="action"><%= redis_notification.action %></td>
-          <td class="user">
+          <td class="current-user">
             <% if redis_notification.current_user.present? %>
               <%= link_to redis_notification.current_user.login, user_path(redis_notification.current_user) %>
             <% else %>
@@ -60,6 +61,11 @@
               <%= format_time(redis_notification.published_at) %>
             <% else %>
               <span class="icon icon-not-ok" title="<%= redis_notification.error %>"></span>
+            <% end %>
+          </td>
+          <td class="additional-data">
+            <% if redis_notification.additional_data.present? %>
+              <code><%= Hash(redis_notification.additional_data).map{|k, v| "#{k}: #{v}"}.join(", ") %></code>
             <% end %>
           </td>
           <td class="publish"><%= link_to l(:redis_notification_publish), publish_redis_notification_path(redis_notification), method: :put, class: "icon icon-arrow-right" %></td>

@@ -52,18 +52,155 @@ PSUBSCRIBE redmine/redis_notifications/*
 
 ## 🤖 Events and actions
 
-These mentioned models are tracked with the corresponding actions. Internally Rails callbacks are used on the model layer, so the plugin patches the models with enhanced logic. The information sent to the channels is very minimal, it's basically only the object id and the user id who performed the change. The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
+These mentioned models are tracked with the corresponding actions. Internally Rails callbacks are used on the model layer, so the plugin patches the models with enhanced logic. The information sent to the channels is very minimal, the base information is always the object id and the user id who performed the change. Additional data my be send dependent on the object (e.g. for an issue change the dependent project id is part of the data stream as well). The idea is to call the Redmine REST API for retrieving the full object data and performing your own actions after you subscribed to the events.
 
-| Model  | Actions | Redis publish channel | Message Data |
-| ------------- | ------------- | ------------- | ------------- |
-| Group  | `create\|update\|destroy`  | `redmine/redis_notifications/groups/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| Issue  | `create\|update\|destroy`  | `redmine/redis_notifications/issues/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| Member  | `create\|update\|destroy`  | `redmine/redis_notifications/members/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| MemberRole  | `create\|update\|destroy`  | `redmine/redis_notifications/member_roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| Project  | `create\|update\|destroy\archive\unarchive`  | `redmine/redis_notifications/projects/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| Role  | `create\|update\|destroy`  | `redmine/redis_notifications/roles/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| TimeEntry  | `create\|update\|destroy`  | `redmine/redis_notifications/time_entries/#{action}` | `{"id": 1, "current_user_id": 1}` |
-| User  | `create\|update\|destroy`  | `redmine/redis_notifications/users/#{action}` | `{"id": 1, "current_user_id": 1}` |
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Actions</th>
+<th>Redis publish channel</th>
+<th>Message Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Group</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/groups/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1
+}
+```
+
+</td>
+</tr>
+<tr>
+<td>Issue</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/issues/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1,
+  "project_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>Member</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/members/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1,
+  "project_id": 1,
+  "user_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>MemberRole</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/member_roles/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1,
+  "member_id": 1,
+  "role_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>Project</td>
+<td><code>create|update|destroy\archive\unarchive</code></td>
+<td><code>redmine/redis_notifications/projects/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>Role</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/roles/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>TimeEntry</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/time_entries/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1,
+  "project_id": 6,
+  "issue_id": 15,
+  "user_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+<tr>
+<td>User</td>
+<td><code>create|update|destroy</code></td>
+<td><code>redmine/redis_notifications/users/#{action}</code></td>
+<td>
+
+```json
+{
+  "id": 1,
+  "current_user_id": 1
+}
+```
+
+</td>
+</tr>
+</tr>
+</tbody>
+</table>
 
 ## 🚛 REST APi
 
@@ -84,6 +221,9 @@ rm -r redmine_redis_notifier
 
 ## 📙 Changelog
 ### HEAD (not yet released)
+
+### v0.2.0
+* Add addtional data for redis notifications. Requires database migration run.
 
 ### v0.1.0
 * Track Member change as well

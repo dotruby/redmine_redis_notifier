@@ -6,5 +6,6 @@ api.redis_notification do
   api.published_at @redis_notification.published_at
   api.created_at @redis_notification.created_at
   api.current_user_id @redis_notification.current_user_id
+  api.additional_data Hash(@redis_notification.additional_data)
   api.error @redis_notification.error
 end

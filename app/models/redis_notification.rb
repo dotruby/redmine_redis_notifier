@@ -12,6 +12,12 @@ class RedisNotification < ActiveRecord::Base
 
   validates :action, presence: true
 
+  # attributes
+  #
+  #
+
+  serialize :additional_data, JSON
+
   # callbacks
   #
   #
@@ -32,7 +38,20 @@ class RedisNotification < ActiveRecord::Base
     end
 
     if Setting.plugin_redmine_redis_notifier["enable_#{subject_type.underscore.pluralize}"] == "1" && notification_table_exists?
-      RedisNotification.create(action: action, subject_id: subject.id, subject_type: subject_type, current_user_id: User&.current&.id)
+      attributes = {
+        action: action,
+        subject_id: subject.id,
+        subject_type: subject_type,
+        current_user_id: User&.current&.id
+      }
+
+      ['project_id', 'issue_id', 'user_id', 'member_id', 'role_id'].each do |attribute|
+        if subject.has_attribute?(attribute)
+          attributes[:additional_data] = Hash(attributes[:additional_data]).merge({attribute.to_sym => subject.send(attribute)})
+        end
+      end
+
+      create(attributes)
     else
       true
     end

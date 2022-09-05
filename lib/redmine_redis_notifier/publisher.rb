@@ -1,7 +1,7 @@
 module RedmineRedisNotifier
   class Publisher
     attr_accessor :redis_notification
-    delegate :subject, :subject_id, :subject_type, :current_user_id, :additional_data, to: :redis_notification, allow_nil: true
+    delegate :subject, :subject_id, :subject_type, :current_user_id, :project_id, :issue_id, :user_id, :member_id, :role_id, to: :redis_notification, allow_nil: true
 
     def initialize(redis_notification)
       self.redis_notification = redis_notification
@@ -28,16 +28,20 @@ module RedmineRedisNotifier
       RedmineRedisNotifier.redis
     end
 
+    def subject_data
+      {
+        id: subject_id,
+        current_user_id: current_user_id,
+        project_id: project_id,
+        issue_id: issue_id,
+        user_id: user_id,
+        member_id: member_id,
+        role_id: role_id
+      }.compact
+    end
+
     def json_data
-      full_data.to_json
-    end
-
-    def base_data
-      {id: subject_id, current_user_id: current_user_id}
-    end
-
-    def full_data
-      base_data.merge(Hash(additional_data)).compact.stringify_keys
+      subject_data.to_json
     end
   end
 end

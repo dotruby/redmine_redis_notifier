@@ -9,7 +9,6 @@ api.array :redis_notifications, api_meta(total_count: @redis_notifications_count
       api.created_at redis_notification.created_at
       api.current_user_id redis_notification.current_user_id
       api.error redis_notification.error
-      api.additional_data Hash(redis_notification.additional_data)
     end
   end
 end

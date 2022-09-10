@@ -42,7 +42,7 @@ jobs:
     container:
       image: redmine:${{ matrix.version }}
       volumes:
-        - ${{ github.workspace }}:/usr/src/redmine/plugins/redmine_redis_notifier
+        - ${{ github.workspace }}:/usr/src/redmine/plugins/${{ github.event.repository.name }}
 
     steps:
     - uses: actions/checkout@v3

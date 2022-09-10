@@ -47,33 +47,27 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Check
+    - name: Install essential
+      run: apt-get update && apt-get install -y build-essential
+
+    - name: Create database.yml (PostgreSQL)
       run: |
-        ls -la
-        cd plugins
-        ls -la
+        cat > config/database.yml <<EOF
+        test:
+          adapter: postgresql
+          host: postgres
+          port: 5432
+          username: <%= ENV["POSTGRES_USER"] %>
+          password: <%= ENV["POSTGRES_PASSWORD"] %>
+          database: "redmine"
+          encoding: "utf8"
+        EOF
 
-    # - name: Install essential
-    #   run: apt-get update && apt-get install -y build-essential
+    - name: Setup environment
+      run: |
+        bundle install --with test
+        bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
 
-    # - name: Create database.yml (PostgreSQL)
-    #   run: |
-    #     cat > config/database.yml <<EOF
-    #     test:
-    #       adapter: postgresql
-    #       host: postgres
-    #       port: 5432
-    #       username: <%= ENV["POSTGRES_USER"] %>
-    #       password: <%= ENV["POSTGRES_PASSWORD"] %>
-    #       database: "redmine"
-    #       encoding: "utf8"
-    #     EOF
-
-    # - name: Setup environment
-    #   run: |
-    #     bundle install --with test
-    #     bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate
-
-    # - name: Run plugin tests
-    #   run: |
-    #     bundle exec rails test plugins/redmine_redis_notifier/test
+    - name: Run plugin tests
+      run: |
+        bundle exec rails test plugins/redmine_redis_notifier/test

@@ -125,7 +125,9 @@ These mentioned models are tracked with the corresponding actions. Internally Ra
   "id": 1,
   "current_user_id": 1,
   "member_id": 1,
-  "role_id": 1
+  "role_id": 1,
+  "project_id": 1,
+  "user_id": 1
 }
 ```
 

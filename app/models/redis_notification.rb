@@ -45,10 +45,9 @@ class RedisNotification < ActiveRecord::Base
         current_user_id: User&.current&.id
       }
 
-      ['project_id', 'issue_id', 'user_id', 'member_id', 'role_id'].each do |attribute|
-        if subject.has_attribute?(attribute)
-          attributes[:additional_data] = Hash(attributes[:additional_data]).merge({attribute.to_sym => subject.send(attribute)})
-        end
+      attributes[:additional_data] = get_additional_data(subject, attributes[:additional_data])
+      if attributes[:additional_data] && attributes[:additional_data].key?(:member_id)
+        attributes[:additional_data] = Hash(attributes[:additional_data]).merge(get_additional_data(subject.member, attributes[:additional_data]))
       end
 
       create(attributes)
@@ -67,5 +66,17 @@ class RedisNotification < ActiveRecord::Base
 
   def publish
     RedmineRedisNotifier::Publisher.new(self).publish
+  end
+
+  private
+
+  def self.get_additional_data(subject, additional_data)
+    ["project_id", "issue_id", "user_id", "member_id", "role_id"].each do |attribute|
+      if subject.has_attribute?(attribute)
+        additional_data = Hash(additional_data).merge({attribute.to_sym => subject.send(attribute)})
+      end
+    end
+
+    additional_data
   end
 end
